@@ -1,0 +1,368 @@
+###########################################################
+# PHPMODDOCK-LITE - Docker Compose Configuration
+# Multi-framework support: Laravel & Symfony
+###########################################################
+
+networks:
+  frontend:
+    driver: ${NETWORKS_DRIVER}
+  backend:
+    driver: ${NETWORKS_DRIVER}
+
+volumes:
+  mysql-data:
+    driver: local
+  postgres-data:
+    driver: local
+  redis-data:
+    driver: local
+  elasticsearch-data:
+    driver: local
+  meilisearch-data:
+    driver: local
+  rabbitmq-data:
+    driver: local
+
+services:
+
+  ###########################################################
+  # Workspace - Development Container
+  ###########################################################
+  workspace:
+    build:
+      context: ./services/workspace
+      args:
+        - INSTALL_NODE=${WORKSPACE_INSTALL_NODE}
+        - NODE_VERSION=${WORKSPACE_NODE_VERSION}
+        - INSTALL_YARN=${WORKSPACE_INSTALL_YARN}
+        - INSTALL_PNPM=${WORKSPACE_INSTALL_PNPM}
+        - INSTALL_SYMFONY_CLI=${WORKSPACE_INSTALL_SYMFONY_CLI}
+        - INSTALL_LARAVEL_INSTALLER=${WORKSPACE_INSTALL_LARAVEL_INSTALLER}
+        - INSTALL_PHPREDIS=${WORKSPACE_INSTALL_PHPREDIS}
+        - INSTALL_XDEBUG=${WORKSPACE_INSTALL_XDEBUG}
+        - COMPOSER_VERSION=${WORKSPACE_COMPOSER_VERSION}
+        - PUID=${WORKSPACE_PUID}
+        - PGID=${WORKSPACE_PGID}
+        - TZ=${WORKSPACE_TIMEZONE}
+    container_name: phpmoddock_workspace
+    volumes:
+      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+    extra_hosts:
+      - "dockerhost:${DOCKER_HOST_IP}"
+    ports:
+      - "${WORKSPACE_SSH_PORT}:22"
+    tty: true
+    environment:
+      - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
+    networks:
+      - frontend
+      - backend
+
+  ###########################################################
+  # FrankenPHP - Modern PHP Application Server (Multi-Project with HTTPS)
+  ###########################################################
+  frankenphp:
+    profiles: ["frankenphp", "minimal", "full", "laravel", "symfony"]
+    build:
+      context: ./services/frankenphp
+      args:
+        - PHP_VERSION=${PHP_VERSION}
+        - INSTALL_REDIS=${PHP_FPM_INSTALL_PHPREDIS}
+        - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
+        - INSTALL_NODE=${FRANKENPHP_INSTALL_NODE}
+        - NODE_VERSION=${WORKSPACE_NODE_VERSION}
+        - INSTALL_SYMFONY_CLI=${WORKSPACE_INSTALL_SYMFONY_CLI}
+        - PUID=${WORKSPACE_PUID}
+        - PGID=${WORKSPACE_PGID}
+        - TZ=${WORKSPACE_TIMEZONE}
+    container_name: phpmoddock_frankenphp
+    volumes:
+      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+      - ./services/frankenphp/html:/usr/share/frankenphp/html:ro
+    extra_hosts:
+      - "dockerhost:${DOCKER_HOST_IP}"
+    ports:
+      - "${FRANKENPHP_HTTP_PORT}:80"
+      - "${FRANKENPHP_HTTPS_PORT}:443"
+      - "${FRANKENPHP_HTTPS_PORT}:443/udp"
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL:-DEBUG}
+      - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
+      - XDEBUG_CONFIG=client_host=${XDEBUG_CLIENT_HOST} client_port=${XDEBUG_CLIENT_PORT}
+      - XDEBUG_MODE=${XDEBUG_MODE}
+      - FRANKENPHP_NUM_WORKERS=${FRANKENPHP_NUM_WORKERS}
+      - FRANKENPHP_NUM_THREADS=${FRANKENPHP_NUM_THREADS}
+    depends_on:
+      - workspace
+    networks:
+      - frontend
+      - backend
+
+  ###########################################################
+  # PHP-FPM (alternative to FrankenPHP)
+  ###########################################################
+  php-fpm:
+    profiles: ["php-fpm", "nginx"]
+    build:
+      context: ./services/php/${PHP_VERSION}
+      args:
+        - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
+        - INSTALL_PHPREDIS=${PHP_FPM_INSTALL_PHPREDIS}
+        - INSTALL_IMAGEMAGICK=${PHP_FPM_INSTALL_IMAGEMAGICK}
+        - PUID=${WORKSPACE_PUID}
+        - PGID=${WORKSPACE_PGID}
+        - TZ=${WORKSPACE_TIMEZONE}
+    container_name: phpmoddock_php_fpm
+    volumes:
+      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+    extra_hosts:
+      - "dockerhost:${DOCKER_HOST_IP}"
+    environment:
+      - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
+      - XDEBUG_CONFIG=client_host=${XDEBUG_CLIENT_HOST} client_port=${XDEBUG_CLIENT_PORT}
+      - XDEBUG_MODE=${XDEBUG_MODE}
+    depends_on:
+      - workspace
+    networks:
+      - backend
+
+  ###########################################################
+  # Nginx (alternative to FrankenPHP)
+  ###########################################################
+  nginx:
+    profiles: ["php-fpm", "nginx"]
+    build:
+      context: ./services/nginx
+      args:
+        - PUID=${WORKSPACE_PUID}
+        - PGID=${WORKSPACE_PGID}
+        - TZ=${WORKSPACE_TIMEZONE}
+    container_name: phpmoddock_nginx
+    volumes:
+      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+      - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
+      - ${NGINX_SITES_PATH}:/etc/nginx/sites-enabled
+      - ./services/nginx/html:/usr/share/nginx/html:ro
+    ports:
+      - "${NGINX_HOST_HTTP_PORT}:80"
+      - "${NGINX_HOST_HTTPS_PORT}:443"
+    depends_on:
+      - php-fpm
+    networks:
+      - frontend
+      - backend
+
+  ###########################################################
+  # MySQL
+  ###########################################################
+  mysql:
+    profiles: ["mysql", "minimal", "full", "laravel", "symfony"]
+    build:
+      context: ./services/mysql
+      args:
+        - MYSQL_VERSION=${MYSQL_VERSION}
+        - TZ=${WORKSPACE_TIMEZONE}
+    container_name: phpmoddock_mysql
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - TZ=${WORKSPACE_TIMEZONE}
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+    ports:
+      - "127.0.0.1:${MYSQL_PORT}:3306"
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ###########################################################
+  # PostgreSQL
+  ###########################################################
+  postgres:
+    profiles: ["postgres", "full"]
+    build:
+      context: ./services/postgres
+      args:
+        - POSTGRES_VERSION=${POSTGRES_VERSION}
+        - TZ=${WORKSPACE_TIMEZONE}
+    container_name: phpmoddock_postgres
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ${POSTGRES_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT}:5432"
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ###########################################################
+  # Redis
+  ###########################################################
+  redis:
+    profiles: ["redis", "minimal", "full", "laravel", "symfony"]
+    build:
+      context: ./services/redis
+      args:
+        - TZ=${WORKSPACE_TIMEZONE}
+    container_name: phpmoddock_redis
+    volumes:
+      - redis-data:/data
+    ports:
+      - "127.0.0.1:${REDIS_PORT}:6379"
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ###########################################################
+  # RabbitMQ
+  ###########################################################
+  rabbitmq:
+    profiles: ["rabbitmq", "full", "laravel", "symfony"]
+    build:
+      context: ./services/rabbitmq
+      args:
+        - TZ=${WORKSPACE_TIMEZONE}
+    container_name: phpmoddock_rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    ports:
+      - "127.0.0.1:${RABBITMQ_NODE_HOST_PORT}:5672"
+      - "127.0.0.1:${RABBITMQ_MANAGEMENT_HTTP_HOST_PORT}:15672"
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  ###########################################################
+  # Mailhog
+  ###########################################################
+  mailhog:
+    profiles: ["mailhog", "development", "full", "laravel", "symfony"]
+    build:
+      context: ./services/mailhog
+    container_name: phpmoddock_mailhog
+    ports:
+      - "127.0.0.1:${MAILHOG_HTTP_PORT}:8025"
+      - "127.0.0.1:${MAILHOG_SMTP_PORT}:1025"
+    networks:
+      - backend
+
+  ###########################################################
+  # Elasticsearch
+  ###########################################################
+  elasticsearch:
+    profiles: ["elasticsearch", "full"]
+    build:
+      context: ./services/elasticsearch
+      args:
+        - ELASTICSEARCH_VERSION=${ELASTICSEARCH_VERSION}
+    container_name: phpmoddock_elasticsearch
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    ports:
+      - "127.0.0.1:${ELASTICSEARCH_HOST_HTTP_PORT}:9200"
+      - "127.0.0.1:${ELASTICSEARCH_HOST_TRANSPORT_PORT}:9300"
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  ###########################################################
+  # Meilisearch
+  ###########################################################
+  meilisearch:
+    profiles: ["meilisearch", "full", "laravel", "symfony"]
+    build:
+      context: ./services/meilisearch
+    container_name: phpmoddock_meilisearch
+    environment:
+      - MEILI_MASTER_KEY=${MEILISEARCH_KEY}
+      - MEILI_ENV=development
+    volumes:
+      - meilisearch-data:/meili_data
+    ports:
+      - "127.0.0.1:${MEILISEARCH_HOST_PORT}:7700"
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--spider", "http://127.0.0.1:7700/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ###########################################################
+  # Adminer - Database Management UI
+  ###########################################################
+  adminer:
+    profiles: ["adminer", "development", "full"]
+    image: adminer:latest
+    container_name: phpmoddock_adminer
+    environment:
+      - ADMINER_DEFAULT_SERVER=${ADMINER_DEFAULT_SERVER}
+      - ADMINER_DESIGN=pepa-linha
+    ports:
+      - "127.0.0.1:${ADMINER_PORT}:8080"
+    networks:
+      - frontend
+      - backend
+
+  ###########################################################
+  # Redis Commander - Redis Management UI
+  ###########################################################
+  redis-commander:
+    profiles: ["redis-commander", "development", "full"]
+    image: rediscommander/redis-commander:latest
+    container_name: phpmoddock_redis_commander
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "127.0.0.1:${REDIS_COMMANDER_PORT}:8081"
+    networks:
+      - backend
+
+  ###########################################################
+  # Dozzle - Docker Logs Viewer
+  ###########################################################
+  dozzle:
+    profiles: ["dozzle", "development", "full", "minimal", "laravel", "symfony"]
+    image: amir20/dozzle:latest
+    container_name: phpmoddock_dozzle
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - "127.0.0.1:${DOZZLE_PORT}:8080"
+    environment:
+      - DOZZLE_LEVEL=info
+      - DOZZLE_TAILSIZE=300
+      - DOZZLE_FILTER=status=running
+    networks:
+      - frontend
+    restart: unless-stopped

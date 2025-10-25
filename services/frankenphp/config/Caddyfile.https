@@ -1,0 +1,74 @@
+# FrankenPHP Caddyfile - Multi-Project HTTPS Mode
+# Official documentation: https://frankenphp.dev/fr/docs/config/
+# Switch to HTTP: ./scripts/frankenphp-https.sh disable
+
+{
+	# HTTPS enabled - Caddy will automatically generate certificates
+	# No auto_https off - let Caddy handle HTTPS automatically
+
+	# Enable FrankenPHP module
+	frankenphp {
+		# Number of PHP worker processes (optional)
+		# Uncomment and adjust based on your needs
+		# num_threads {$FRANKENPHP_NUM_THREADS:2}
+	}
+}
+
+# Default server - serves static welcome page
+http://localhost {
+	root * /usr/share/frankenphp/html
+
+	# Try files or fallback to index.html
+	try_files {path} /index.html
+
+	# Enable compression
+	encode zstd br gzip
+
+	# Logging
+	log {
+		output stdout
+		format console
+		level {$LOG_LEVEL:INFO}
+	}
+
+	# Serve static files
+	file_server
+}
+
+# Laravel Application - HTTPS with automatic certificates
+laravel-app.localhost {
+	# Root directory for Laravel
+	root * /var/www/laravel-app/public
+
+	# Enable compression
+	encode zstd br gzip
+
+	# Logging
+	log {
+		output stdout
+		format console
+		level {$LOG_LEVEL:INFO}
+	}
+
+	# PHP server directive
+	php_server
+}
+
+# Symfony Application - HTTPS with automatic certificates
+symfony-api.localhost {
+	# Root directory for Symfony
+	root * /var/www/symfony-api/public
+
+	# Enable compression
+	encode zstd br gzip
+
+	# Logging
+	log {
+		output stdout
+		format console
+		level {$LOG_LEVEL:INFO}
+	}
+
+	# PHP server directive
+	php_server
+}

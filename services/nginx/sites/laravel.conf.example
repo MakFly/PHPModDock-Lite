@@ -1,0 +1,103 @@
+###########################################################
+# Nginx Configuration for Laravel
+###########################################################
+
+server {
+    listen 80;
+    listen [::]:80;
+
+    # Server name (change to your domain or localhost)
+    server_name laravel.local localhost;
+
+    # Root directory (Laravel public folder)
+    root /var/www/laravel/public;
+
+    index index.php index.html index.htm;
+
+    charset utf-8;
+
+    # Logging
+    access_log /var/log/nginx/laravel_access.log;
+    error_log /var/log/nginx/laravel_error.log;
+
+    # Main location
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    # Pass PHP scripts to PHP-FPM
+    location ~ \.php$ {
+        try_files $uri =404;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass php-fpm:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+
+        # Laravel specific
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+        fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
+
+        # Timeouts
+        fastcgi_read_timeout 300;
+        fastcgi_send_timeout 300;
+        fastcgi_connect_timeout 300;
+
+        # Buffers
+        fastcgi_buffer_size 128k;
+        fastcgi_buffers 256 16k;
+        fastcgi_busy_buffers_size 256k;
+        fastcgi_temp_file_write_size 256k;
+    }
+
+    # Deny access to hidden files
+    location ~ /\. {
+        deny all;
+        access_log off;
+        log_not_found off;
+    }
+
+    # Deny access to sensitive files
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+
+    # Laravel Vite HMR (Hot Module Replacement)
+    location ~ ^/(vite|@vite|@id|node_modules) {
+        proxy_pass http://host.docker.internal:5173;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    # Laravel Reverb WebSocket (if using)
+    location /app {
+        proxy_pass http://php-fpm:8085;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    # Favicon
+    location = /favicon.ico {
+        access_log off;
+        log_not_found off;
+    }
+
+    # Robots
+    location = /robots.txt {
+        access_log off;
+        log_not_found off;
+    }
+
+    # Static files caching
+    location ~* \.(jpg|jpeg|gif|png|css|js|ico|xml|svg|woff|woff2|ttf|eot)$ {
+        expires 30d;
+        access_log off;
+        add_header Cache-Control "public, immutable";
+    }
+}

@@ -1,0 +1,83 @@
+# FrankenPHP Caddyfile - Multi-Project HTTP Mode
+# Official documentation: https://frankenphp.dev/fr/docs/config/
+# Switch to HTTPS: ./scripts/frankenphp-https.sh enable
+
+{
+	# Global options - HTTP only mode
+	auto_https off
+
+	# Enable FrankenPHP module
+	frankenphp {
+		# Number of PHP worker processes (optional)
+		# Uncomment and adjust based on your needs
+		# num_threads {$FRANKENPHP_NUM_THREADS:2}
+	}
+}
+
+# Default server - serves welcome page with PHP support
+http://localhost {
+	root * /usr/share/frankenphp/html
+
+	# Enable compression
+	encode zstd br gzip
+
+	# Logging
+	log {
+		output stdout
+		format console
+		level {$LOG_LEVEL:INFO}
+	}
+
+	# PHP server directive for API endpoints
+	php_server
+}
+
+# Laravel Application - HTTP only
+http://laravel-app.localhost {
+	# Root directory for Laravel
+	root * /var/www/laravel-app/public
+
+	# Enable compression
+	encode zstd br gzip
+
+	# Logging
+	log {
+		output stdout
+		format console
+		level {$LOG_LEVEL:INFO}
+	}
+
+	# PHP server directive
+	php_server
+}
+
+# Symfony Application - HTTP only
+http://symfony-api.localhost {
+	# Root directory for Symfony
+	root * /var/www/symfony-api/public
+
+	# Enable compression
+	encode zstd br gzip
+
+	# Logging
+	log {
+		output stdout
+		format console
+		level {$LOG_LEVEL:INFO}
+	}
+
+	# PHP server directive
+	php_server
+}
+
+# my-shop - PrestaShop Application - HTTP only
+http://myshop.localhost {
+	root * /var/www/my-shop
+	encode zstd br gzip
+	log {
+		output stdout
+		format console
+		level INFO
+	}
+	php_server
+}

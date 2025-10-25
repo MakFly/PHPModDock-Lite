@@ -1,0 +1,251 @@
+# PHPModDock-Lite - Git Ignore
+
+###########################################################
+# Environment & Configuration
+###########################################################
+.env
+.env.local
+.env.*.local
+
+# Claude AI
+.claude/
+
+###########################################################
+# Logs
+###########################################################
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+###########################################################
+# Data & Volumes
+###########################################################
+# Data directories
+data/
+mysql/
+postgres/
+redis/
+elasticsearch/
+meilisearch/
+rabbitmq/
+
+# Docker volumes data
+.docker/
+
+###########################################################
+# Projects
+###########################################################
+# Projects (add your own)
+projects/*
+!projects/.gitkeep
+!projects/README.md
+
+###########################################################
+# Backups
+###########################################################
+*.backup
+*.backup-*
+*.bak
+*~
+*.orig
+
+# Caddyfile backups
+services/frankenphp/config/*.backup*
+services/frankenphp/config/*.bak
+
+###########################################################
+# OS Files
+###########################################################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+###########################################################
+# IDE & Editors
+###########################################################
+# VSCode
+.vscode/
+*.code-workspace
+
+# JetBrains (PHPStorm, WebStorm, etc.)
+.idea/
+*.iml
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+.*.swp
+.*.swo
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+
+###########################################################
+# Temporary Files
+###########################################################
+tmp/
+temp/
+*.tmp
+.cache/
+
+###########################################################
+# Node.js (for projects inside /projects)
+###########################################################
+node_modules/
+npm-debug.log
+yarn-error.log
+.npm
+.yarn-integrity
+
+###########################################################
+# Composer (for projects inside /projects)
+###########################################################
+vendor/
+composer.phar
+composer.lock
+
+###########################################################
+# Nginx Configuration
+###########################################################
+# Nginx sites (keep examples only)
+services/nginx/sites/*.conf
+!services/nginx/sites/*.conf.example
+!services/nginx/sites/00-default.conf
+
+# Nginx logs (already covered by logs/ but explicit)
+services/nginx/logs/
+
+###########################################################
+# Database Init Scripts
+###########################################################
+# Init scripts (keep examples only)
+services/mysql/docker-entrypoint-initdb.d/*
+!services/mysql/docker-entrypoint-initdb.d/.gitkeep
+!services/mysql/docker-entrypoint-initdb.d/*.example
+
+services/postgres/docker-entrypoint-initdb.d/*
+!services/postgres/docker-entrypoint-initdb.d/.gitkeep
+!services/postgres/docker-entrypoint-initdb.d/*.example
+
+###########################################################
+# SSL/TLS Certificates
+###########################################################
+*.pem
+*.key
+*.crt
+*.csr
+*.p12
+*.pfx
+services/frankenphp/certs/
+services/nginx/ssl/
+
+###########################################################
+# API & Generated Files
+###########################################################
+# Keep API files (they're part of the project)
+# But ignore any generated/uploaded content
+services/*/html/uploads/
+services/*/html/cache/
+
+###########################################################
+# Docker
+###########################################################
+# Docker Compose override (for local customization)
+docker-compose.override.yml
+
+# Docker build cache
+.dockercache/
+
+###########################################################
+# CI/CD
+###########################################################
+.github/workflows/*.local.yml
+
+###########################################################
+# Documentation Generated Files
+###########################################################
+docs/_build/
+docs/.doctrees/
+
+###########################################################
+# PrestaShop Specific
+###########################################################
+# Config files
+config/settings.inc.php
+config/defines.inc.php
+config/smarty.config.inc.php
+
+# Cache & Generated files
+cache/
+admin-dev/autoupgrade/
+img/tmp/
+var/cache/
+var/logs/
+
+# Backups & Downloads
+download/
+admin*/backup/
+admin*/export/
+admin*/import/
+
+# Modules development
+modules/*/.git
+modules/*/cache/
+
+###########################################################
+# WordPress Specific
+###########################################################
+# Core WordPress files (when WP is in projects/)
+wp-config.php
+wp-config-*.php
+
+# WordPress uploads & cache
+wp-content/uploads/
+wp-content/cache/
+wp-content/backup*/
+wp-content/upgrade/
+wp-content/w3tc-config/
+
+# WordPress debug logs
+wp-content/debug.log
+
+# WordPress updraft backups
+wp-content/updraft/
+
+# Advanced Custom Fields Pro
+wp-content/plugins/advanced-custom-fields-pro/
+
+# WordPress specific plugins that shouldn't be committed
+wp-content/plugins/query-monitor/
+wp-content/plugins/debug-bar/
+
+# Themes - allow only custom themes
+wp-content/themes/twenty*/
+
+# WordPress cache plugins
+wp-content/cache/
+wp-content/w3tc/
+
+###########################################################
+# Miscellaneous
+###########################################################
+*.pid
+*.seed
+*.pid.lock
+.bash_history

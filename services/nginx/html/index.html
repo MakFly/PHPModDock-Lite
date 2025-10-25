@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHPModDock-Lite - Development Environment</title>
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        // Theme management
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+    </script>
+</head>
+<body class="bg-white dark:bg-black text-gray-900 dark:text-white min-h-screen transition-colors duration-300">
+    <!-- Header -->
+    <header class="border-b border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-black/80 backdrop-blur-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <svg class="w-10 h-10 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
+                    </svg>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">PHPModDock-Lite</h1>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Modern Docker Development Environment</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <!-- Theme Toggle -->
+                    <button id="theme-toggle" class="p-2.5 rounded-lg bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors" aria-label="Toggle theme">
+                        <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20">
+                        FrankenPHP
+                    </span>
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full bg-primary-500/10 text-primary-600 dark:text-primary-400 border border-primary-500/20">
+                        Active
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Status Banner -->
+        <div class="mb-8 rounded-xl bg-gradient-to-r from-primary-100 to-purple-100 dark:from-primary-600/20 dark:to-purple-600/20 border border-primary-300 dark:border-primary-500/30 p-6">
+            <div class="flex items-start gap-4">
+                <svg class="w-6 h-6 text-primary-600 dark:text-primary-400 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <div>
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">Environment Ready</h2>
+                    <p class="text-gray-700 dark:text-gray-300 text-sm">All services are running and ready for development. Access your projects below.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Section -->
+        <section class="mb-12">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                    <svg class="w-6 h-6 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                    </svg>
+                    Your Projects
+                    <span id="projects-count" class="text-sm font-normal text-gray-500 dark:text-gray-400"></span>
+                </h2>
+
+                <button id="refresh-projects" class="group flex items-center gap-2 px-4 py-2 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500/50 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200" title="Refresh projects list">
+                    <svg id="refresh-icon" class="w-4 h-4 text-gray-600 dark:text-gray-400 group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors">Actualiser</span>
+                </button>
+            </div>
+
+            <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Projects will be loaded dynamically -->
+                <div class="col-span-2 flex items-center justify-center py-12">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
+                    <span class="ml-3 text-gray-600 dark:text-gray-400">Loading projects...</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Grid -->
+        <section class="mb-12">
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+                <svg class="w-6 h-6 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
+                </svg>
+                Development Services
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Adminer -->
+                <a href="http://localhost:8081" target="_blank" data-service="adminer" class="service-card group p-4 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500/50 transition-all">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-2">
+                            <h3 class="font-semibold text-gray-900 dark:text-white">Adminer</h3>
+                            <span class="service-status w-2 h-2 rounded-full bg-gray-400" title="Checking..."></span>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-400 dark:text-gray-600 group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                        </svg>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Database Management</p>
+                    <code class="text-xs text-primary-400 font-mono">:8081</code>
+                </a>
+
+                <!-- Mailhog -->
+                <a href="http://localhost:8025" target="_blank" data-service="mailhog" class="service-card group p-4 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500/50 transition-all">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-2">
+                        <h3 class="font-semibold text-gray-900 dark:text-white">Mailhog</h3>
+                        <span class="service-status w-2 h-2 rounded-full bg-gray-400" title="Checking..."></span>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-400 dark:text-gray-600 group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                        </svg>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Email Testing</p>
+                    <code class="text-xs text-primary-400 font-mono">:8025</code>
+                </a>
+
+                <!-- Dozzle -->
+                <a href="http://localhost:8888" target="_blank" data-service="dozzle" class="service-card group p-4 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500/50 transition-all">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-2">
+                        <h3 class="font-semibold text-gray-900 dark:text-white">Dozzle</h3>
+                        <span class="service-status w-2 h-2 rounded-full bg-gray-400" title="Checking..."></span>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-400 dark:text-gray-600 group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                        </svg>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Docker Logs Viewer</p>
+                    <code class="text-xs text-primary-400 font-mono">:8888</code>
+                </a>
+
+                <!-- RabbitMQ -->
+                <a href="http://localhost:15672" target="_blank" data-service="rabbitmq" class="service-card group p-4 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500/50 transition-all">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-2">
+                        <h3 class="font-semibold text-gray-900 dark:text-white">RabbitMQ</h3>
+                        <span class="service-status w-2 h-2 rounded-full bg-gray-400" title="Checking..."></span>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-400 dark:text-gray-600 group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                        </svg>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Message Queue</p>
+                    <code class="text-xs text-primary-400 font-mono">:15672</code>
+                </a>
+
+                <!-- Meilisearch -->
+                <a href="http://localhost:7700" target="_blank" data-service="meilisearch" class="service-card group p-4 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500/50 transition-all">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-2">
+                        <h3 class="font-semibold text-gray-900 dark:text-white">Meilisearch</h3>
+                        <span class="service-status w-2 h-2 rounded-full bg-gray-400" title="Checking..."></span>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-400 dark:text-gray-600 group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                        </svg>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Search Engine</p>
+                    <code class="text-xs text-primary-400 font-mono">:7700</code>
+                </a>
+
+                <!-- Redis Commander -->
+                <a href="http://localhost:8082" target="_blank" data-service="redis-commander" class="service-card group p-4 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500/50 transition-all">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-2">
+                        <h3 class="font-semibold text-gray-900 dark:text-white">Redis Commander</h3>
+                        <span class="service-status w-2 h-2 rounded-full bg-gray-400" title="Checking..."></span>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-400 dark:text-gray-600 group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                        </svg>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Redis Management</p>
+                    <code class="text-xs text-primary-400 font-mono">:8082</code>
+                </a>
+            </div>
+        </section>
+
+        <!-- Tech Stack -->
+        <section>
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+                <svg class="w-6 h-6 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                </svg>
+                Technology Stack
+            </h2>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                <div class="p-4 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-center">
+                    <div class="text-sm font-semibold text-gray-900 dark:text-white mb-1">FrankenPHP</div>
+                    <div class="text-xs text-gray-600 dark:text-gray-400">1.3.8</div>
+                </div>
+                <div class="p-4 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-center">
+                    <div class="text-sm font-semibold text-gray-900 dark:text-white mb-1">PHP</div>
+                    <div class="text-xs text-gray-600 dark:text-gray-400">8.3.27</div>
+                </div>
+                <div class="p-4 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-center">
+                    <div class="text-sm font-semibold text-gray-900 dark:text-white mb-1">MySQL</div>
+                    <div class="text-xs text-gray-600 dark:text-gray-400">8.0.44</div>
+                </div>
+                <div class="p-4 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-center">
+                    <div class="text-sm font-semibold text-gray-900 dark:text-white mb-1">Redis</div>
+                    <div class="text-xs text-gray-600 dark:text-gray-400">7.4.6</div>
+                </div>
+                <div class="p-4 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-center">
+                    <div class="text-sm font-semibold text-gray-900 dark:text-white mb-1">Meilisearch</div>
+                    <div class="text-xs text-gray-600 dark:text-gray-400">1.24.0</div>
+                </div>
+                <div class="p-4 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-center">
+                    <div class="text-sm font-semibold text-gray-900 dark:text-white mb-1">RabbitMQ</div>
+                    <div class="text-xs text-gray-600 dark:text-gray-400">3.13</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-200 dark:border-gray-700 mt-12 py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-500">
+                <div class="flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>Add domains to <code class="text-xs bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded font-mono">/etc/hosts</code> or use <code class="text-xs bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded font-mono">./scripts/hosts-manager.sh</code></span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span>Tailwind CSS</span>
+                    <span class="text-gray-400 dark:text-gray-700">•</span>
+                    <span class="text-primary-500 dark:text-primary-400">v3.4.17</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Projects Dynamic Loader Script -->
+    <script>
+        // Framework icon SVGs
+        const frameworkIcons = {
+            laravel: '<path d="M23.642 5.43a.364.364 0 01.014.1v5.149c0 .135-.073.26-.189.326l-4.323 2.49v4.934a.378.378 0 01-.188.326L9.93 23.949a.316.316 0 01-.066.027c-.008.002-.016.008-.024.01a.348.348 0 01-.192 0c-.011-.002-.02-.008-.03-.012-.02-.008-.042-.014-.062-.025L.533 18.755a.376.376 0 01-.189-.326V2.974c0-.033.005-.066.014-.098.003-.012.01-.02.014-.032a.369.369 0 01.023-.058c.004-.013.015-.022.023-.033l.033-.045c.012-.01.025-.018.037-.027.014-.012.027-.024.041-.034H.53L5.043.05a.375.375 0 01.375 0L9.93 2.647h.002c.015.01.027.021.04.033l.038.027c.013.014.02.03.033.045.008.011.02.021.025.033.01.02.017.038.024.058.003.011.01.021.013.032.01.031.014.064.014.098v9.652l3.76-2.164V5.527c0-.033.004-.066.013-.098.003-.01.01-.02.013-.032a.487.487 0 01.024-.059c.007-.012.018-.02.025-.033.012-.015.021-.03.033-.043.012-.012.025-.02.037-.028.013-.012.027-.023.04-.032h.003l4.513-2.598a.375.375 0 01.375 0l4.513 2.598c.016.01.027.021.042.031.012.01.025.018.036.028.013.014.022.03.034.046.008.01.02.02.024.032a.3.3 0 01.024.06c.006.01.012.021.015.032zm-.74 5.032V6.179l-1.578.908-2.182 1.256v4.283zm-4.51 7.75v-4.287l-2.147 1.225-6.126 3.498v4.325zM1.093 3.624v14.588l8.273 4.761v-4.325l-4.322-2.445-.002-.003H5.04c-.014-.01-.025-.021-.04-.031-.011-.01-.024-.018-.035-.027l-.001-.002c-.013-.012-.021-.025-.031-.039-.01-.012-.021-.023-.028-.037h-.002c-.008-.014-.013-.031-.02-.047-.006-.016-.014-.027-.018-.043a.49.49 0 01-.008-.057c-.002-.014-.006-.027-.006-.041V5.789l-2.18-1.257zM5.23.81L1.47 2.974l3.76 2.164 3.758-2.164zm1.956 13.505l2.182-1.256V3.624l-1.58.91-2.18 1.255v9.435zm11.581-10.95l-3.76 2.163 3.76 2.163 3.759-2.164zm-.376 4.978L16.21 7.087 14.03 5.831v4.282l2.182 1.256 1.58.908zm-8.65 9.654l5.514-3.148 2.756-1.572-3.757-2.163-4.323 2.489-3.941 2.27z"/>',
+            symfony: '<path d="M16.493 22.43c-.193.024-.384.045-.575.063-.192.02-.384.036-.576.047-.192.01-.383.018-.574.018h-.574c-1.913 0-3.633-.293-5.157-.878-1.525-.586-2.811-1.387-3.86-2.405C3.726 18.258 2.88 16.99 2.281 15.5c-.6-1.49-.9-3.09-.9-4.8 0-1.71.3-3.31.9-4.8.6-1.49 1.446-2.758 2.495-3.776 1.049-1.018 2.335-1.819 3.86-2.405C10.16.133 11.88-.16 13.793-.16h.574c.191 0 .382.006.574.018.191.011.382.027.574.047.191.018.382.04.574.063.192.024.383.053.574.087l-.574 4.8c-.192-.034-.383-.063-.574-.087-.192-.024-.383-.045-.574-.063-.192-.02-.383-.036-.574-.047-.192-.01-.383-.018-.574-.018h-.574c-.96 0-1.87.148-2.731.443-.86.296-1.616.707-2.263 1.233-.647.526-1.165 1.152-1.554 1.878-.39.726-.584 1.524-.584 2.394 0 .87.195 1.668.584 2.394.39.726.907 1.352 1.554 1.878.647.526 1.402.937 2.263 1.233.86.295 1.771.443 2.731.443h.574c.191 0 .382-.006.574-.018.191-.011.382-.027.574-.047.191-.018.382-.04.574-.063.191-.024.382-.053.574-.087l.574 4.8c-.191.034-.382.063-.574.087z"/>',
+            prestashop: '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>',
+            wordpress: '<path d="M12.158 12.786l-2.698 7.84c.806.236 1.657.365 2.54.365 1.047 0 2.051-.18 2.986-.51-.024-.037-.046-.078-.065-.123l-2.763-7.572zm-5.316 3.713L3.604 8.89c-.67 1.453-1.047 3.077-1.047 4.796 0 3.654 1.708 6.905 4.37 9.004l2.915-8.191zm11.137-7.717c0-1.248-.449-2.112-.833-2.783-.512-.832-1.02-1.535-1.02-2.367 0-.928.704-1.79 1.697-1.79.045 0 .087.006.131.009C15.811 1.334 14.002.481 12 .481c-3.173 0-5.96 1.62-7.595 4.08.213.007.414.011.584.011.949 0 2.415-.115 2.415-.115.488-.029.546.688.058.746 0 0-.49.058-.1033.087l3.288 9.782 1.976-5.928-1.406-3.854c-.488-.029-.949-.087-.949-.087-.489-.029-.432-.775.058-.746 0 0 1.494.115 2.384.115.949 0 2.415-.115 2.415-.115.488-.029.547.688.058.746 0 0-.49.058-1.033.087l3.265 9.713.901-3.012c.391-1.248.688-2.143.688-2.916zm1.504-1.998c.044.324.069.671.069 1.045 0 1.033-.193 2.194-.776 3.644l-3.116 9.011c3.032-1.769 5.072-5.05 5.072-8.825 0-2.039-.599-3.938-1.625-5.534l.376-.341z"/>',
+            generic: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>'
+        };
+
+        // Load and render projects
+        async function loadProjects() {
+            try {
+                const response = await fetch('/api/projects.php');
+                const data = await response.json();
+
+                if (!data.success) {
+                    throw new Error(data.error || 'Failed to load projects');
+                }
+
+                const container = document.getElementById('projects-container');
+                const countSpan = document.getElementById('projects-count');
+
+                // Update count
+                countSpan.textContent = `(${data.count})`;
+
+                // Clear loading message
+                container.innerHTML = '';
+
+                if (data.count === 0) {
+                    container.innerHTML = `
+                        <div class="col-span-2 text-center py-12">
+                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                            </svg>
+                            <h3 class="mt-2 text-sm font-semibold text-gray-900 dark:text-white">No projects found</h3>
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Create a project using <code class="text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded font-mono">./scripts/new-project.sh</code></p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Render projects
+                data.projects.forEach(project => {
+                    const iconPath = frameworkIcons[project.icon] || frameworkIcons.generic;
+                    const isFillIcon = project.icon !== 'generic';
+
+                    const projectCard = document.createElement('a');
+                    projectCard.href = project.url;
+                    projectCard.className = 'group block p-6 rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500/50 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200';
+
+                    projectCard.innerHTML = `
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-lg bg-gradient-to-br ${project.color} flex items-center justify-center">
+                                    <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" ${isFillIcon ? 'fill="currentColor"' : 'fill="none" stroke="currentColor"'}>
+                                        ${iconPath}
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors">${project.displayName}</h3>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">${project.description}</p>
+                                </div>
+                            </div>
+                            <svg class="w-5 h-5 text-gray-400 dark:text-gray-600 group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <code class="text-xs text-gray-600 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded font-mono">${project.domain}</code>
+                        </div>
+                    `;
+
+                    container.appendChild(projectCard);
+                });
+
+            } catch (error) {
+                console.error('Error loading projects:', error);
+                const container = document.getElementById('projects-container');
+                container.innerHTML = `
+                    <div class="col-span-2 text-center py-12">
+                        <svg class="mx-auto h-12 w-12 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                        </svg>
+                        <h3 class="mt-2 text-sm font-semibold text-gray-900 dark:text-white">Error loading projects</h3>
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Refresh button handler
+        function setupRefreshButton() {
+            const refreshBtn = document.getElementById('refresh-projects');
+            const refreshIcon = document.getElementById('refresh-icon');
+
+            refreshBtn.addEventListener('click', async () => {
+                // Add spin animation
+                refreshIcon.classList.add('animate-spin');
+                refreshBtn.disabled = true;
+
+                // Reload projects
+                await loadProjects();
+
+                // Remove spin animation after completion
+                setTimeout(() => {
+                    refreshIcon.classList.remove('animate-spin');
+                    refreshBtn.disabled = false;
+                }, 500);
+            });
+        }
+
+        // Load projects on page load and setup refresh button
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProjects();
+            setupRefreshButton();
+        });
+    </script>
+
+    <!-- Service Health Check Script -->
+    <script>
+        // Service definitions with their URLs
+        const services = {
+            'adminer': { url: 'http://localhost:8081', name: 'Adminer' },
+            'redis-commander': { url: 'http://localhost:8082', name: 'Redis Commander' },
+            'mailhog': { url: 'http://localhost:8025', name: 'Mailhog' },
+            'dozzle': { url: 'http://localhost:8888', name: 'Dozzle' },
+            'rabbitmq': { url: 'http://localhost:15672', name: 'RabbitMQ' },
+            'meilisearch': { url: 'http://localhost:7700', name: 'Meilisearch' }
+        };
+
+        // Check if a service is accessible
+        async function checkServiceHealth(serviceKey, serviceData) {
+            try {
+                // Use fetch with no-cors mode and short timeout
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 2000);
+
+                const response = await fetch(serviceData.url, {
+                    method: 'HEAD',
+                    mode: 'no-cors',
+                    cache: 'no-cache',
+                    signal: controller.signal
+                });
+
+                clearTimeout(timeoutId);
+                return true; // Service is reachable
+            } catch (error) {
+                // Check if error is due to network (service down) vs CORS (service up)
+                if (error.name === 'AbortError' || error.message.includes('Failed to fetch')) {
+                    return false; // Service is down
+                }
+                // CORS error means service is actually running
+                return true;
+            }
+        }
+
+        // Update UI for a service
+        function updateServiceStatus(serviceKey, isHealthy) {
+            const card = document.querySelector(`[data-service="${serviceKey}"]`);
+            if (!card) return;
+
+            const statusDot = card.querySelector('.service-status');
+
+            if (isHealthy) {
+                statusDot.className = 'service-status w-2 h-2 rounded-full bg-green-500 animate-pulse';
+                statusDot.title = 'Running';
+                card.classList.remove('opacity-50', 'pointer-events-none');
+            } else {
+                statusDot.className = 'service-status w-2 h-2 rounded-full bg-red-500';
+                statusDot.title = 'Down';
+                card.classList.add('opacity-50', 'pointer-events-none');
+            }
+        }
+
+        // Check all services
+        async function checkAllServices() {
+            const promises = Object.entries(services).map(async ([key, data]) => {
+                const isHealthy = await checkServiceHealth(key, data);
+                updateServiceStatus(key, isHealthy);
+            });
+
+            await Promise.all(promises);
+        }
+
+        // Check on page load and every 30 seconds
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAllServices();
+            setInterval(checkAllServices, 30000);
+        });
+    </script>
+
+    <!-- Theme Toggle Script -->
+    <script>
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+        // Show correct icon on page load
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            themeToggleLightIcon.classList.remove('hidden');
+        } else {
+            themeToggleDarkIcon.classList.remove('hidden');
+        }
+
+        // Toggle theme on button click
+        themeToggleBtn.addEventListener('click', function() {
+            // Toggle icons
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
+
+            // Toggle theme
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+        });
+    </script>
+</body>
+</html>

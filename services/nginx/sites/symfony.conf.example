@@ -1,0 +1,111 @@
+###########################################################
+# Nginx Configuration for Symfony
+###########################################################
+
+server {
+    listen 80;
+    listen [::]:80;
+
+    # Server name (change to your domain or localhost)
+    server_name symfony.local localhost;
+
+    # Root directory (Symfony public folder)
+    root /var/www/symfony/public;
+
+    index index.php;
+
+    charset utf-8;
+
+    # Logging
+    access_log /var/log/nginx/symfony_access.log;
+    error_log /var/log/nginx/symfony_error.log;
+
+    # Main location - try to serve file directly, fallback to index.php
+    location / {
+        try_files $uri /index.php$is_args$args;
+    }
+
+    # Pass PHP scripts to PHP-FPM
+    location ~ ^/index\.php(/|$) {
+        fastcgi_pass php-fpm:9000;
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+
+        # Symfony specific
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+
+        # Timeouts
+        fastcgi_read_timeout 300;
+        fastcgi_send_timeout 300;
+        fastcgi_connect_timeout 300;
+
+        # Buffers
+        fastcgi_buffer_size 128k;
+        fastcgi_buffers 256 16k;
+        fastcgi_busy_buffers_size 256k;
+        fastcgi_temp_file_write_size 256k;
+
+        # Prevents URIs that include the front controller
+        # This will 404:
+        # http://domain.tld/index.php/some-path
+        # Remove the internal directive to allow URIs like this
+        internal;
+    }
+
+    # Return 404 for all other php files not matching the front controller
+    # This prevents access to other php files you don't want to be accessible
+    location ~ \.php$ {
+        return 404;
+    }
+
+    # Deny access to hidden files
+    location ~ /\. {
+        deny all;
+        access_log off;
+        log_not_found off;
+    }
+
+    # Symfony Webpack Encore HMR (Hot Module Replacement)
+    location ~ ^/(build|bundles) {
+        try_files $uri =404;
+    }
+
+    # Symfony Mercure (if using)
+    location /.well-known/mercure {
+        proxy_pass http://mercure:80;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    # Favicon
+    location = /favicon.ico {
+        access_log off;
+        log_not_found off;
+    }
+
+    # Robots
+    location = /robots.txt {
+        access_log off;
+        log_not_found off;
+    }
+
+    # Static files caching
+    location ~* \.(jpg|jpeg|gif|png|css|js|ico|xml|svg|woff|woff2|ttf|eot)$ {
+        expires 30d;
+        access_log off;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # Symfony profiler (dev environment only)
+    location ^~ /_wdt {
+        try_files $uri /index.php$is_args$args;
+    }
+
+    location ^~ /_profiler {
+        try_files $uri /index.php$is_args$args;
+    }
+}
