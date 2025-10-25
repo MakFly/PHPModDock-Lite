@@ -5,7 +5,7 @@
 
 ## 🎯 Vue d'Ensemble
 
-Le workspace Laradock Lite est maintenant **intelligent** et **multi-projet**. Il détecte automatiquement dans quel projet vous travaillez et adapte ses commandes en conséquence.
+Le workspace PHPModDock-Lite est maintenant **intelligent** et **multi-projet**. Il détecte automatiquement dans quel projet vous travaillez et adapte ses commandes en conséquence.
 
 ## 🚀 Accès au Workspace
 
@@ -27,7 +27,7 @@ Au démarrage, un **menu interactif** apparaît automatiquement :
 
 ```
 ╔════════════════════════════════════════════════════╗
-║       Laradock Lite - Workspace Menu              ║
+║       PHPModDock-Lite - Workspace Menu              ║
 ╚════════════════════════════════════════════════════╝
 
 Projets disponibles :

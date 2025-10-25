@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Laradock Lite - Workspace Helper Functions
+# PHPModDock-Lite - Workspace Helper Functions
 # Universal helpers that work across all projects
 
 # Colors

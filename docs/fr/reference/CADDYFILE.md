@@ -1,6 +1,6 @@
 # Caddyfile Configuration Guide
 
-This guide explains how to configure FrankenPHP using the Caddyfile system in Laradock Lite.
+This guide explains how to configure FrankenPHP using the Caddyfile system in PHPModDock-Lite.
 
 ## Table of Contents
 
@@ -15,7 +15,7 @@ This guide explains how to configure FrankenPHP using the Caddyfile system in La
 
 ## Overview
 
-Laradock Lite uses [FrankenPHP](https://frankenphp.dev/) with [Caddy](https://caddyserver.com/) as the web server. The configuration is split into:
+PHPModDock-Lite uses [FrankenPHP](https://frankenphp.dev/) with [Caddy](https://caddyserver.com/) as the web server. The configuration is split into:
 
 - **Main Caddyfile**: `services/frankenphp/config/Caddyfile` - Base configuration
 - **Framework configs**: `services/frankenphp/config/Caddyfile.d/*.caddyfile` - Optional framework-specific settings

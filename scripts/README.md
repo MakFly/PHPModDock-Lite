@@ -1,6 +1,6 @@
-# Scripts Laradock Lite
+# Scripts PHPModDock-Lite
 
-Collection de scripts utilitaires pour gérer votre environnement Laradock Lite.
+Collection de scripts utilitaires pour gérer votre environnement PHPModDock-Lite.
 
 ## 📜 Scripts Disponibles
 

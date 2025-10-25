@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Laradock Lite - OS Detection Library
+# PHPModDock-Lite - OS Detection Library
 # Détecte automatiquement l'OS et fournit les chemins appropriés
 
 # Colors

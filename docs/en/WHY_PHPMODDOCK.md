@@ -31,7 +31,7 @@
 
 ### Performance
 
-| Métrique | Laradock | Laradock Lite |
+| Métrique | Laradock | PHPModDock-Lite |
 |----------|----------|---------------|
 | **Serveur Web** | Nginx + PHP-FPM | **FrankenPHP** (ou Nginx) |
 | **Vitesse** | Baseline (1x) | **3-4x plus rapide** |
@@ -44,12 +44,12 @@
 **Benchmark Réel** (Laravel App):
 ```
 Laradock (Nginx + PHP-FPM):   150 req/s
-Laradock Lite (FrankenPHP):   600 req/s   ← 4x plus rapide
+PHPModDock-Lite (FrankenPHP):   600 req/s   ← 4x plus rapide
 ```
 
 ### Technologies Modernes
 
-| Technologie | Laradock | Laradock Lite |
+| Technologie | Laradock | PHPModDock-Lite |
 |-------------|----------|---------------|
 | **PHP Versions** | 7.4, 8.0, 8.1, 8.2 | 8.1, 8.2, **8.3** |
 | **Node.js** | v16, v18 | v18, **v20**, v22 |
@@ -90,7 +90,7 @@ docker-compose up -d nginx mysql redis
 # Temps total: 1-2 heures (débutant), 30min (expérimenté)
 ```
 
-**Laradock Lite** :
+**PHPModDock-Lite** :
 ```bash
 # 1. Installation
 make install
@@ -133,7 +133,7 @@ docker-compose restart nginx
 # Temps: 15-30 minutes
 ```
 
-**Laradock Lite** :
+**PHPModDock-Lite** :
 ```bash
 # Une seule commande
 sudo ./scripts/new-project.sh laravel my-app
@@ -164,7 +164,7 @@ php artisan migrate
 # - Pas d'aide contextuelle
 ```
 
-**Laradock Lite** :
+**PHPModDock-Lite** :
 ```bash
 make workspace
 # Menu interactif apparaît:
@@ -197,7 +197,7 @@ workspace-info    # Affiche toutes les infos
 # Pas de scripts helper
 ```
 
-**Laradock Lite** :
+**PHPModDock-Lite** :
 ```bash
 # ✓ Linux: Natif, testé
 # ✓ macOS: Supporté, scripts adaptés
@@ -227,7 +227,7 @@ workspace-info    # Affiche toutes les infos
 └── Communauté: StackOverflow (réponses variées)
 ```
 
-**Laradock Lite** :
+**PHPModDock-Lite** :
 ```
 ├── README.md (guide complet)
 ├── docs/
@@ -248,7 +248,7 @@ workspace-info    # Affiche toutes les infos
 
 ---
 
-## 🔥 Points Forts de Laradock Lite
+## 🔥 Points Forts de PHPModDock-Lite
 
 ### 1. Performance Exceptionnelle
 
@@ -303,7 +303,7 @@ make workspace
 
 ### 5. Multi-Projet Efficace
 
-**Laradock Lite** :
+**PHPModDock-Lite** :
 - ✅ **1 instance FrankenPHP** sert tous les projets
 - ✅ Moins de RAM, plus rapide
 - ✅ Configuration centralisée (Caddyfile)
@@ -325,13 +325,13 @@ Laradock Original reste pertinent si :
 3. **Configuration Très Spécifique** : Vous avez des besoins ultra-personnalisés
 4. **Équipe Familière** : Votre équipe connaît déjà Laradock et ne veut pas changer
 
-**Mais** : Dans 95% des cas, **Laradock Lite est meilleur**.
+**Mais** : Dans 95% des cas, **PHPModDock-Lite est meilleur**.
 
 ---
 
 ## 🎯 Cas d'Usage Recommandés
 
-### ✅ Laradock Lite - Parfait Pour :
+### ✅ PHPModDock-Lite - Parfait Pour :
 
 #### Nouveaux Projets (2024-2025)
 ```bash
@@ -385,7 +385,7 @@ sudo ./scripts/new-project.sh laravel mon-app
 
 ---
 
-## 💡 Migration de Laradock vers Laradock Lite
+## 💡 Migration de Laradock vers PHPModDock-Lite
 
 ### Étape 1 : Évaluation
 
@@ -400,7 +400,7 @@ sudo ./scripts/new-project.sh laravel mon-app
 **Approche Recommandée** :
 
 ```bash
-# 1. Installer Laradock Lite à côté de Laradock
+# 1. Installer PHPModDock-Lite à côté de Laradock
 git clone laradock-lite.git
 
 # 2. Tester avec un nouveau projet
@@ -408,7 +408,7 @@ cd laradock-lite
 sudo ./scripts/new-project.sh laravel test-app
 
 # 3. Comparer la performance
-# Benchmark: Laradock vs Laradock Lite
+# Benchmark: Laradock vs PHPModDock-Lite
 
 # 4. Migrer projet par projet
 # Commencer par les projets simples
@@ -430,30 +430,30 @@ Après migration :
 
 ## 📈 Tableau de Bord des Fonctionnalités
 
-| Fonctionnalité | Laradock | Laradock Lite | Avantage |
+| Fonctionnalité | Laradock | PHPModDock-Lite | Avantage |
 |----------------|----------|---------------|----------|
-| **Setup Time** | 15-30 min | 2-5 min | 🟢 Laradock Lite |
-| **Performance** | 150 req/s | 600 req/s | 🟢 Laradock Lite |
-| **RAM Usage** | 800 MB | 400 MB | 🟢 Laradock Lite |
-| **HTTP/3** | ❌ | ✅ | 🟢 Laradock Lite |
-| **Worker Mode** | ❌ | ✅ | 🟢 Laradock Lite |
-| **Auto /etc/hosts** | ❌ | ✅ | 🟢 Laradock Lite |
-| **Menu Workspace** | ❌ | ✅ | 🟢 Laradock Lite |
-| **Multi-OS Scripts** | ❌ | ✅ | 🟢 Laradock Lite |
+| **Setup Time** | 15-30 min | 2-5 min | 🟢 PHPModDock-Lite |
+| **Performance** | 150 req/s | 600 req/s | 🟢 PHPModDock-Lite |
+| **RAM Usage** | 800 MB | 400 MB | 🟢 PHPModDock-Lite |
+| **HTTP/3** | ❌ | ✅ | 🟢 PHPModDock-Lite |
+| **Worker Mode** | ❌ | ✅ | 🟢 PHPModDock-Lite |
+| **Auto /etc/hosts** | ❌ | ✅ | 🟢 PHPModDock-Lite |
+| **Menu Workspace** | ❌ | ✅ | 🟢 PHPModDock-Lite |
+| **Multi-OS Scripts** | ❌ | ✅ | 🟢 PHPModDock-Lite |
 | **Services Rares** | ✅ 80+ | 🟡 15 | 🟡 Laradock (si besoin) |
 | **PHP 5.6-7.0** | ✅ | ❌ | 🟡 Laradock (legacy) |
 | **Communauté** | Grande | Petite | 🟡 Laradock |
 | **Maturité** | 8+ ans | Nouveau | 🟡 Laradock |
 
 **Score Global** :
-- **Laradock Lite** : 9/12 (75%) - **Gagnant pour nouveaux projets**
+- **PHPModDock-Lite** : 9/12 (75%) - **Gagnant pour nouveaux projets**
 - **Laradock Original** : 3/12 (25%) - Pertinent pour cas spécifiques
 
 ---
 
 ## 🎤 Avis d'Expert : Pourquoi C'est Cool !
 
-### Ce Qui Rend Laradock Lite Exceptionnel
+### Ce Qui Rend PHPModDock-Lite Exceptionnel
 
 #### 1. **Philosophie "Less is More"**
 
@@ -462,7 +462,7 @@ Laradock original est une **usine à gaz** par conception :
 - 200+ variables .env → Complexité inutile
 - Multiples façons de faire la même chose → Confusion
 
-**Laradock Lite** applique le principe KISS :
+**PHPModDock-Lite** applique le principe KISS :
 - Services essentiels uniquement
 - Configuration claire et documentée
 - Une seule bonne façon de faire
@@ -477,7 +477,7 @@ Laradock a été créé en 2016-2017 :
 - HTTP/2 était nouveau
 - Docker Compose v2
 
-**Laradock Lite** utilise les meilleurs outils 2024-2025 :
+**PHPModDock-Lite** utilise les meilleurs outils 2024-2025 :
 - **FrankenPHP** : Serveur Go ultra-performant
 - **Caddy 2** : Configuration simple, HTTPS auto
 - **PHP 8.3** : Performance et fonctionnalités modernes
@@ -502,7 +502,7 @@ bin/console doctrine:migrations:migrate
 # Etc.
 ```
 
-**Laradock Lite** :
+**PHPModDock-Lite** :
 ```bash
 # Workflow optimisé (3 commandes)
 make workspace
@@ -534,7 +534,7 @@ C'était un **point douloureux** de Laradock :
 - Développeurs Windows : Doc limitée, problèmes fréquents
 - Teams mixtes : Chacun se débrouille
 
-**Laradock Lite** :
+**PHPModDock-Lite** :
 - Scripts détectent l'OS automatiquement
 - Commandes adaptées (sudo vs admin)
 - Chemins corrects (/etc/hosts vs C:\Windows\...)
@@ -551,7 +551,7 @@ C'était un **point douloureux** de Laradock :
 - Réponses StackOverflow (qualité variable)
 - Pas de guides step-by-step
 
-**Laradock Lite** :
+**PHPModDock-Lite** :
 - Guides complets (workspace, projets, HTTPS)
 - Tutoriels pas-à-pas
 - Exemples concrets partout
@@ -564,7 +564,7 @@ C'était un **point douloureux** de Laradock :
 
 ## 🏆 Verdict Final
 
-### Pour Qui Laradock Lite Est-il Fait ?
+### Pour Qui PHPModDock-Lite Est-il Fait ?
 
 #### ✅ Parfait Si Vous Êtes :
 
@@ -592,7 +592,7 @@ C'était un **point douloureux** de Laradock :
 - Technologies datées
 - Complexité pour la complexité
 
-**Laradock Lite** est ce que Laradock aurait dû devenir :
+**PHPModDock-Lite** est ce que Laradock aurait dû devenir :
 - ⚡ **Rapide** : Setup 2 min, performance 4x
 - 🎯 **Focalisé** : Juste l'essentiel, bien fait
 - 🚀 **Moderne** : HTTP/3, FrankenPHP, PHP 8.3
@@ -601,11 +601,11 @@ C'était un **point douloureux** de Laradock :
 
 ### La Vraie Question
 
-**"Pourquoi utiliser Laradock Lite plutôt que Laradock ?"**
+**"Pourquoi utiliser PHPModDock-Lite plutôt que Laradock ?"**
 
 Mauvaise question. La vraie question est :
 
-**"Pourquoi perdre du temps avec Laradock alors que Laradock Lite fait tout mieux ?"**
+**"Pourquoi perdre du temps avec Laradock alors que PHPModDock-Lite fait tout mieux ?"**
 
 **Réponse** : Il n'y a aucune raison, sauf cas très spécifiques (legacy, services exotiques).
 
@@ -632,7 +632,7 @@ Mauvaise question. La vraie question est :
 
 ## 📝 Conclusion
 
-**Laradock Lite** n'est pas juste "Laradock mais plus simple".
+**PHPModDock-Lite** n'est pas juste "Laradock mais plus simple".
 
 C'est une **réinvention complète** de ce que doit être un environnement de développement PHP moderne :
 - Performance de 2025, pas de 2016
@@ -647,10 +647,10 @@ C'est une **réinvention complète** de ce que doit être un environnement de d�
 
 Laradock était révolutionnaire à l'époque, mais il n'a pas évolué. Il est devenu complexe et lourd.
 
-**Laradock Lite** est ce qu'on attendait : moderne, rapide, simple, et **fun** à utiliser.
+**PHPModDock-Lite** est ce qu'on attendait : moderne, rapide, simple, et **fun** à utiliser.
 
 ---
 
 **Fait avec 💙 pour la communauté Laravel & Symfony**
 
-*Si vous aimez Laradock Lite, partagez-le ! Si vous avez des questions, ouvrez une issue GitHub.*
+*Si vous aimez PHPModDock-Lite, partagez-le ! Si vous avez des questions, ouvrez une issue GitHub.*

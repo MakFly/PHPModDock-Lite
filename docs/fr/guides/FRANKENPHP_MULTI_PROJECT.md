@@ -317,4 +317,4 @@ docker-compose up -d frankenphp-laravel frankenphp-symfony
 
 Pour plus d'informations, consultez :
 - `services/frankenphp/README.md` - Configuration détaillée FrankenPHP
-- `README.md` - Documentation générale Laradock Lite
+- `README.md` - Documentation générale PHPModDock-Lite

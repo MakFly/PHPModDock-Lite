@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Laradock Lite - Workspace Aliases (Contextual & Intelligent)
+# PHPModDock-Lite - Workspace Aliases (Contextual & Intelligent)
 # Useful shortcuts for Laravel and Symfony development
 
 # Colors for messages
@@ -171,4 +171,4 @@ alias dcl='docker-compose logs -f'
 # Permissions (universal)
 alias fix-perms='sudo chown -R www-data:www-data /var/www'
 
-echo "Laradock Lite aliases loaded! (contextual mode)"
+echo "PHPModDock-Lite aliases loaded! (contextual mode)"

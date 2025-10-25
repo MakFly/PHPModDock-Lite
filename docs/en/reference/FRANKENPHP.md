@@ -1,6 +1,6 @@
 # FrankenPHP Guide
 
-This guide explains FrankenPHP, its benefits, and how to use it effectively in Laradock Lite.
+This guide explains FrankenPHP, its benefits, and how to use it effectively in PHPModDock-Lite.
 
 ## Table of Contents
 
@@ -93,7 +93,7 @@ Request → FrankenPHP → Execute (app already in memory) → Response
 
 ### Switching Between Stacks
 
-Laradock Lite supports both! Switch using Docker Compose profiles:
+PHPModDock-Lite supports both! Switch using Docker Compose profiles:
 
 ```bash
 # Use FrankenPHP (recommended)

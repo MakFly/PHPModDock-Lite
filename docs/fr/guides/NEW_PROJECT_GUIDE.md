@@ -2,7 +2,7 @@
 
 ## 🚀 Vue d'Ensemble
 
-Laradock Lite inclut un système automatisé de création de projets qui :
+PHPModDock-Lite inclut un système automatisé de création de projets qui :
 - ✅ Détecte automatiquement votre OS (Linux / macOS / Windows / WSL)
 - ✅ Crée le projet Laravel ou Symfony
 - ✅ Configure automatiquement le Caddyfile
@@ -161,11 +161,11 @@ sudo ./scripts/hosts-manager.sh add-managed \
 Cette commande crée une section gérée dans le fichier hosts :
 
 ```
-# BEGIN Laradock Lite - Auto-generated
+# BEGIN PHPModDock-Lite - Auto-generated
 127.0.0.1	laravel-app.localhost	# Laravel Project
 127.0.0.1	symfony-api.localhost	# Symfony API
 127.0.0.1	shop.localhost	# E-commerce
-# END Laradock Lite
+# END PHPModDock-Lite
 ```
 
 ##### Lister les Entrées

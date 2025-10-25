@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Laradock Lite - Workspace Interactive Menu
+# PHPModDock-Lite - Workspace Interactive Menu
 # Automatically detects projects and provides navigation
 
 # Colors
@@ -18,7 +18,7 @@ show_banner() {
     echo -e "${CYAN}"
     echo "╔════════════════════════════════════════════════════╗"
     echo "║                                                    ║"
-    echo "║       Laradock Lite - Workspace Menu              ║"
+    echo "║       PHPModDock-Lite - Workspace Menu              ║"
     echo "║                                                    ║"
     echo "╚════════════════════════════════════════════════════╝"
     echo -e "${NC}"

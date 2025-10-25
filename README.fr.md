@@ -509,7 +509,7 @@ docker-compose build mysql
 
 ## FrankenPHP vs PHP-FPM + Nginx
 
-Laradock Lite supports both modern (FrankenPHP) and traditional (PHP-FPM + Nginx) stacks.
+PHPModDock-Lite supports both modern (FrankenPHP) and traditional (PHP-FPM + Nginx) stacks.
 
 ### When to Use FrankenPHP (Recommended)
 
