@@ -9,8 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Initial release of PHPModDock-Lite
-- Multi-PHP version support (8.1, 8.2, 8.3)
-- Multi-framework support (Laravel & Symfony)
+- Multi-PHP version support (8.1, 8.2, 8.3, 8.4)
+- Multi-framework support (Laravel 11/12, Symfony 6/7, PrestaShop 8)
 - Docker Compose profiles for flexible service management
 - Core services: PHP-FPM, Nginx, Workspace
 - Database services: MySQL 8.0, PostgreSQL 16

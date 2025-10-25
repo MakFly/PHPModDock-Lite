@@ -6,7 +6,7 @@
 
 [![PHP 8.4](https://img.shields.io/badge/PHP-8.1%20|%208.2%20|%208.3%20|%208.4-777BB4?style=flat-square&logo=php)](https://www.php.net/)
 [![FrankenPHP](https://img.shields.io/badge/FrankenPHP-Latest-00ADD8?style=flat-square)](https://frankenphp.dev/)
-[![Laravel](https://img.shields.io/badge/Laravel-10%20|%2011-FF2D20?style=flat-square&logo=laravel)](https://laravel.com/)
+[![Laravel](https://img.shields.io/badge/Laravel-11%20|%2012-FF2D20?style=flat-square&logo=laravel)](https://laravel.com/)
 [![Symfony](https://img.shields.io/badge/Symfony-6%20|%207-000000?style=flat-square&logo=symfony)](https://symfony.com/)
 [![PrestaShop](https://img.shields.io/badge/PrestaShop-8.x-DF0067?style=flat-square&logo=prestashop)](https://www.prestashop.com/)
 
