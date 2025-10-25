@@ -22,7 +22,7 @@
 | Config manuelle | **Scripts automation** | 🤖 **Intelligent** |
 | Technologies 2016 | **Stack 2025** | 🆕 **Moderne** |
 
-**→ [Lire la comparaison complète](docs/WHY_PHPMODDOCK.md)**
+**→ [Lire la comparaison complète](docs/fr/WHY_PHPMODDOCK.md)**
 
 ---
 
@@ -97,7 +97,7 @@ make full       # Everything enabled
 > **New**: `make dev` provides an interactive menu to choose between FrankenPHP (modern, 3-4x faster) and Nginx+PHP-FPM (traditional).
 >
 > **Recommended**: Use FrankenPHP (`make up`) for new projects. It's faster, simpler, and supports modern protocols (HTTP/2, HTTP/3).
-> See [docs/reference/FRANKENPHP.md](docs/reference/FRANKENPHP.md) for details.
+> See [docs/fr/reference/FRANKENPHP.md](docs/fr/reference/FRANKENPHP.md) for details.
 
 ### 3. Setup Your Project
 
@@ -125,7 +125,7 @@ make workspace
 > - Contextual aliases that adapt to your framework
 > - Helper commands: `project laravel`, `project symfony`, `run migrate`
 >
-> See [WORKSPACE_GUIDE.md](WORKSPACE_GUIDE.md) for complete workspace documentation.
+> See [docs/fr/guides/WORKSPACE_GUIDE.md](docs/fr/guides/WORKSPACE_GUIDE.md) for complete workspace documentation.
 
 ### 4. Configure Web Server
 
@@ -154,7 +154,7 @@ Restart FrankenPHP:
 docker-compose restart frankenphp
 ```
 
-> See [docs/CADDYFILE.md](docs/CADDYFILE.md) for detailed configuration guide.
+> See [docs/fr/reference/CADDYFILE.md](docs/fr/reference/CADDYFILE.md) for detailed configuration guide.
 
 #### Nginx + PHP-FPM (Traditional)
 
@@ -452,7 +452,7 @@ laradock-lite/
 
 ### FrankenPHP / Caddyfile Configuration
 
-The Caddyfile system is highly flexible and supports environment variables. See [docs/CADDYFILE.md](docs/CADDYFILE.md) for:
+The Caddyfile system is highly flexible and supports environment variables. See [docs/fr/reference/CADDYFILE.md](docs/fr/reference/CADDYFILE.md) for:
 - Modular framework configurations
 - Custom domain and port settings
 - Worker mode configuration
@@ -537,7 +537,7 @@ Laradock Lite supports both modern (FrankenPHP) and traditional (PHP-FPM + Nginx
 | Configuration | 2 files | 1 file | 1 file |
 | HTTP/3 Support | No | Yes | Yes |
 
-> **Learn More**: See [docs/FRANKENPHP.md](docs/FRANKENPHP.md) for detailed comparison, benchmarks, and migration guide.
+> **Learn More**: See [docs/fr/reference/FRANKENPHP.md](docs/fr/reference/FRANKENPHP.md) for detailed comparison, benchmarks, and migration guide.
 
 ## Troubleshooting
 
@@ -637,28 +637,28 @@ APP_DEBUG=false
 
 ## 📚 Documentation
 
-**→ [Index Complet de la Documentation](docs/INDEX.md)**
+**→ [Index Complet de la Documentation](docs/fr/INDEX.md)**
 
 ### 🚀 Démarrage Rapide
 
 | Guide | Description | Temps |
 |-------|-------------|-------|
 | **[Quick Start](#quick-start)** | Installation et premier projet | 5 min |
-| **[Pourquoi Lite ?](docs/WHY_LARADOCK_LITE.md)** | Comparaison détaillée avec Laradock | 15 min |
-| **[Workspace](docs/guides/WORKSPACE_GUIDE.md)** | Menu interactif, navigation intelligente | 15 min |
-| **[Créer un Projet](docs/guides/NEW_PROJECT_GUIDE.md)** | Scripts automation multi-OS | 20 min |
+| **[Pourquoi Lite ?](docs/fr/WHY_PHPMODDOCK.md)** | Comparaison détaillée avec Laradock | 15 min |
+| **[Workspace](docs/guides/docs/fr/guides/WORKSPACE_GUIDE.md)** | Menu interactif, navigation intelligente | 15 min |
+| **[Créer un Projet](docs/fr/guides/NEW_PROJECT_GUIDE.md)** | Scripts automation multi-OS | 20 min |
 
 ### 📖 Guides Pratiques
 
-- **[Workspace Intelligent](docs/guides/WORKSPACE_GUIDE.md)** - Menu interactif, aliases, helpers
-- **[Création de Projets](docs/guides/NEW_PROJECT_GUIDE.md)** - Scripts multi-OS (Linux/macOS/Windows/WSL)
+- **[Workspace Intelligent](docs/guides/docs/fr/guides/WORKSPACE_GUIDE.md)** - Menu interactif, aliases, helpers
+- **[Création de Projets](docs/fr/guides/NEW_PROJECT_GUIDE.md)** - Scripts multi-OS (Linux/macOS/Windows/WSL)
 - **[Configuration HTTPS](docs/guides/FRANKENPHP_HTTPS_SETUP.md)** - Switch HTTP/HTTPS automatique
-- **[Multi-Projet](docs/guides/FRANKENPHP_MULTI_PROJECT.md)** - Architecture instance unique
+- **[Multi-Projet](docs/fr/guides/FRANKENPHP_MULTI_PROJECT.md)** - Architecture instance unique
 
 ### 📘 Références Techniques
 
-- **[FrankenPHP](docs/reference/FRANKENPHP.md)** - Worker mode, performance, Laravel Octane
-- **[Caddyfile](docs/reference/CADDYFILE.md)** - Configuration Caddy avancée
+- **[FrankenPHP](docs/fr/reference/FRANKENPHP.md)** - Worker mode, performance, Laravel Octane
+- **[Caddyfile](docs/fr/reference/CADDYFILE.md)** - Configuration Caddy avancée
 
 ### 🛠️ Scripts & Automation
 
@@ -679,13 +679,13 @@ sudo ./scripts/hosts-manager.sh add myapp.localhost
 
 ### 🎯 Par Cas d'Usage
 
-- **Nouveau sur PHPModDock-Lite ?** → [Quick Start](#quick-start) + [Pourquoi Lite ?](docs/WHY_PHPMODDOCK.md)
-- **Créer un projet Laravel ?** → [Guide Projets - Laravel](docs/guides/NEW_PROJECT_GUIDE.md#laravel)
-- **Créer un projet Symfony ?** → [Guide Projets - Symfony](docs/guides/NEW_PROJECT_GUIDE.md#symfony)
+- **Nouveau sur PHPModDock-Lite ?** → [Quick Start](#quick-start) + [Pourquoi Lite ?](docs/fr/WHY_PHPMODDOCK.md)
+- **Créer un projet Laravel ?** → [Guide Projets - Laravel](docs/fr/guides/NEW_PROJECT_GUIDE.md#laravel)
+- **Créer un projet Symfony ?** → [Guide Projets - Symfony](docs/fr/guides/NEW_PROJECT_GUIDE.md#symfony)
 - **Créer une boutique PrestaShop ?** → `./scripts/new-project.sh prestashop my-shop`
-- **Gérer plusieurs projets ?** → [Guide Multi-Projet](docs/guides/FRANKENPHP_MULTI_PROJECT.md)
-- **Optimiser performance ?** → [FrankenPHP - Worker Mode](docs/reference/FRANKENPHP.md)
-- **Windows/WSL ?** → [Guide Projets - Multi-OS](docs/guides/NEW_PROJECT_GUIDE.md#gestion-multi-os-du-etchosts)
+- **Gérer plusieurs projets ?** → [Guide Multi-Projet](docs/fr/guides/FRANKENPHP_MULTI_PROJECT.md)
+- **Optimiser performance ?** → [FrankenPHP - Worker Mode](docs/fr/reference/FRANKENPHP.md)
+- **Windows/WSL ?** → [Guide Projets - Multi-OS](docs/fr/guides/NEW_PROJECT_GUIDE.md#gestion-multi-os-du-etchosts)
 
 ## Contributing
 

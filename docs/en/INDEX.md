@@ -11,7 +11,7 @@ Welcome to the complete documentation for PHPModDock-Lite! This page guides you 
 
 ### Nouveau sur PHPModDock-Lite ?
 
-1. **[README Principal](../README.md)** - Vue d'ensemble et quick start (5 min)
+1. **[README Principal](../../README.md)** - Vue d'ensemble et quick start (5 min)
 2. **[Pourquoi PHPModDock-Lite ?](WHY_PHPMODDOCK.md)** - Comparaison avec Laradock original (10 min)
 3. **[Guide Workspace](guides/WORKSPACE_GUIDE.md)** - Comprendre le workspace intelligent (15 min)
 
@@ -47,9 +47,9 @@ Documentation technique approfondie pour configuration avancée.
 
 | Script | Description | Documentation |
 |--------|-------------|---------------|
-| **new-project.sh** | Création automatique de projets | [Guide Projets](guides/NEW_PROJECT_GUIDE.md) + [Scripts README](../scripts/README.md) |
-| **hosts-manager.sh** | Gestion /etc/hosts multi-OS | [Guide Projets](guides/NEW_PROJECT_GUIDE.md) + [Scripts README](../scripts/README.md) |
-| **frankenphp-https.sh** | Switch HTTP/HTTPS | [Guide HTTPS](guides/FRANKENPHP_HTTPS_SETUP.md) + [Scripts README](../scripts/README.md) |
+| **new-project.sh** | Création automatique de projets | [Guide Projets](guides/NEW_PROJECT_GUIDE.md) + [Scripts README](../../scripts/README.md) |
+| **hosts-manager.sh** | Gestion /etc/hosts multi-OS | [Guide Projets](guides/NEW_PROJECT_GUIDE.md) + [Scripts README](../../scripts/README.md) |
+| **frankenphp-https.sh** | Switch HTTP/HTTPS | [Guide HTTPS](guides/FRANKENPHP_HTTPS_SETUP.md) + [Scripts README](../../scripts/README.md) |
 
 ### 📝 Tutoriels (À Venir)
 
@@ -68,7 +68,7 @@ Documentation technique approfondie pour configuration avancée.
 
 #### Démarrer un Nouveau Projet Laravel
 
-1. [Quick Start](../README.md#quick-start) (2 min)
+1. [Quick Start](../../README.md#quick-start) (2 min)
 2. [Créer le projet](guides/NEW_PROJECT_GUIDE.md#laravel) (5 min)
 3. [Utiliser le workspace](guides/WORKSPACE_GUIDE.md#workflow-1--développement-laravel) (10 min)
 
@@ -76,7 +76,7 @@ Documentation technique approfondie pour configuration avancée.
 
 #### Démarrer un Nouveau Projet Symfony
 
-1. [Quick Start](../README.md#quick-start) (2 min)
+1. [Quick Start](../../README.md#quick-start) (2 min)
 2. [Créer le projet](guides/NEW_PROJECT_GUIDE.md#symfony) (5 min)
 3. [Utiliser le workspace](guides/WORKSPACE_GUIDE.md#workflow-2--développement-symfony) (10 min)
 
@@ -197,8 +197,8 @@ sf make:entity
 
 **Parcours Recommandé** :
 
-1. **[README Principal](../README.md)** (5 min) - Vue d'ensemble
-2. **[Installation](../README.md#installation)** (2 min) - Setup
+1. **[README Principal](../../README.md)** (5 min) - Vue d'ensemble
+2. **[Installation](../../README.md#installation)** (2 min) - Setup
 3. **[Premier Projet](guides/NEW_PROJECT_GUIDE.md)** (10 min) - Créer Laravel/Symfony
 4. **[Workspace Basique](guides/WORKSPACE_GUIDE.md#accès-au-workspace)** (5 min) - Utilisation quotidienne
 
@@ -211,7 +211,7 @@ sf make:entity
 1. **[Multi-Projet](guides/FRANKENPHP_MULTI_PROJECT.md)** (15 min)
 2. **[HTTPS Setup](guides/FRANKENPHP_HTTPS_SETUP.md)** (10 min)
 3. **[Workspace Avancé](guides/WORKSPACE_GUIDE.md#helpers-universels)** (15 min)
-4. **[Scripts Automation](../scripts/README.md)** (10 min)
+4. **[Scripts Automation](../../scripts/README.md)** (10 min)
 
 **Temps total** : ~50 minutes
 
@@ -234,7 +234,7 @@ sf make:entity
 
 | Problème | Solution | Documentation |
 |----------|----------|---------------|
-| Container ne démarre pas | Vérifier Docker, ports occupés | [README - Troubleshooting](../README.md) |
+| Container ne démarre pas | Vérifier Docker, ports occupés | [README - Troubleshooting](../../README.md) |
 | /etc/hosts non modifié | Privilèges admin requis | [Guide Projets - Privilèges](guides/NEW_PROJECT_GUIDE.md#gestion-des-privilèges-par-os) |
 | Workspace menu absent | Rebuild workspace | [Workspace - Setup](guides/WORKSPACE_GUIDE.md) |
 | HTTPS ne fonctionne pas | Vérifier mode, Caddyfile | [Guide HTTPS - Troubleshooting](guides/FRANKENPHP_HTTPS_SETUP.md#troubleshooting) |
@@ -339,8 +339,8 @@ phpmoddock-lite/
 
 **Objectif** : Créer votre premier projet et être productif
 
-1. [README](../README.md) - Quick Start (5 min)
-2. [Installer](../README.md#installation) (2 min)
+1. [README](../../README.md) - Quick Start (5 min)
+2. [Installer](../../README.md#installation) (2 min)
 3. [Premier Projet](guides/NEW_PROJECT_GUIDE.md#exemples-pratiques) (15 min)
 4. [Workspace Basique](guides/WORKSPACE_GUIDE.md#accès-au-workspace) (10 min)
 5. **Pratique** : Créer un vrai projet (30 min)
@@ -353,7 +353,7 @@ phpmoddock-lite/
 2. [Multi-Projet](guides/FRANKENPHP_MULTI_PROJECT.md) (30 min)
 3. [HTTPS](guides/FRANKENPHP_HTTPS_SETUP.md) (20 min)
 4. [Workspace Avancé](guides/WORKSPACE_GUIDE.md) (30 min)
-5. [Scripts](../scripts/README.md) (20 min)
+5. [Scripts](../../scripts/README.md) (20 min)
 6. **Pratique** : 2-3 projets simultanés (30 min)
 
 ### Parcours 3 : "Je Performe" (5 heures)
@@ -383,11 +383,11 @@ La documentation est vivante et s'améliore grâce à la communauté !
 
 | Ressource | Lien |
 |-----------|------|
-| **README Principal** | [README.md](../README.md) |
+| **README Principal** | [README.md](../../README.md) |
 | **Pourquoi Lite ?** | [WHY_PHPMODDOCK.md](WHY_PHPMODDOCK.md) |
 | **Guides** | [docs/guides/](guides/) |
 | **Références** | [docs/reference/](reference/) |
-| **Scripts** | [scripts/README.md](../scripts/README.md) |
+| **Scripts** | [scripts/README.md](../../scripts/README.md) |
 | **GitHub** | [Repository](https://github.com/your-repo) |
 
 ---
