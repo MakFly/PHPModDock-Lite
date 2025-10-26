@@ -22,14 +22,14 @@ yarn-error.log*
 ###########################################################
 # Data & Volumes
 ###########################################################
-# Data directories
-data/
-mysql/
-postgres/
-redis/
-elasticsearch/
-meilisearch/
-rabbitmq/
+# Data directories (at root level only, not in services/)
+/data/
+/mysql/
+/postgres/
+/redis/
+/elasticsearch/
+/meilisearch/
+/rabbitmq/
 
 # Docker volumes data
 .docker/
