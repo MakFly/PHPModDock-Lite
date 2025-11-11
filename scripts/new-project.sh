@@ -3,7 +3,7 @@
 # PHPModDock-Lite - New Project Creator
 # Création automatique de projets Laravel/Symfony avec configuration complète
 
-set -e
+set -euo pipefail
 
 # Load libraries
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -148,6 +148,53 @@ parse_args() {
     fi
 }
 
+# Validate input to prevent command injection
+validate_input() {
+    # Validate project name: alphanumeric, hyphens, underscores only
+    if ! [[ "$PROJECT_NAME" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+        echo -e "${RED}✗ Nom de projet invalide${NC}"
+        echo -e "${YELLOW}Utilisez seulement des lettres, chiffres, tirets (-) et underscores (_)${NC}"
+        exit 1
+    fi
+
+    # Validate domain name format
+    if ! [[ "$DOMAIN" =~ ^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$ ]]; then
+        echo -e "${RED}✗ Nom de domaine invalide: $DOMAIN${NC}"
+        echo -e "${YELLOW}Utilisez un format de domaine valide (ex: myapp.localhost)${NC}"
+        exit 1
+    fi
+}
+
+# Wait for container to be healthy
+wait_for_healthy() {
+    local container_name=$1
+    local max_wait=${2:-30}
+    local wait_time=0
+
+    echo -e "${BLUE}Waiting for $container_name to be healthy...${NC}"
+
+    while [ $wait_time -lt $max_wait ]; do
+        if docker inspect --format='{{.State.Health.Status}}' "$container_name" 2>/dev/null | grep -q "healthy"; then
+            echo -e "${GREEN}✓ $container_name is healthy${NC}"
+            return 0
+        fi
+
+        # Also check if container is running but has no healthcheck
+        if docker ps --format '{{.Names}}' | grep -q "^${container_name}$"; then
+            if ! docker inspect --format='{{.State.Health}}' "$container_name" 2>/dev/null | grep -q "Status"; then
+                echo -e "${GREEN}✓ $container_name is running${NC}"
+                return 0
+            fi
+        fi
+
+        sleep 1
+        wait_time=$((wait_time + 1))
+    done
+
+    echo -e "${YELLOW}⚠ Timeout waiting for $container_name${NC}"
+    return 1
+}
+
 # Check if Docker is running
 check_docker() {
     if ! docker info > /dev/null 2>&1; then
@@ -160,13 +207,13 @@ check_docker() {
 
 # Check if workspace container is running
 check_workspace() {
-    if ! docker ps --format '{{.Names}}' | grep -q "laradock_workspace"; then
+    if ! docker ps --format '{{.Names}}' | grep -q "phpmoddock_workspace"; then
         echo -e "${YELLOW}⚠ Container workspace non démarré${NC}"
         echo ""
         echo -e "${BLUE}Démarrage du workspace...${NC}"
         cd "$PROJECT_ROOT"
         docker-compose up -d workspace
-        sleep 2
+        wait_for_healthy "phpmoddock_workspace" 30 || true
     fi
 }
 
@@ -404,7 +451,7 @@ restart_frankenphp() {
     echo -e "${BLUE}Redémarrage de FrankenPHP...${NC}"
     cd "$PROJECT_ROOT"
     docker-compose restart frankenphp
-    sleep 2
+    wait_for_healthy "phpmoddock_frankenphp" 30 || true
     echo -e "${GREEN}✓ FrankenPHP redémarré${NC}"
 }
 
@@ -463,6 +510,7 @@ print_success() {
 # Main
 main() {
     parse_args "$@"
+    validate_input
 
     print_banner
     print_os_info

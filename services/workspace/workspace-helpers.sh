@@ -3,6 +3,8 @@
 # PHPModDock-Lite - Workspace Helper Functions
 # Universal helpers that work across all projects
 
+set -e
+
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'

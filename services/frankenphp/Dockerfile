@@ -1,7 +1,7 @@
 ARG PHP_VERSION=8.3
 FROM dunglas/frankenphp:1-php${PHP_VERSION}
 
-LABEL maintainer="Laradock Lite <maintainer@laradock-lite.io>"
+LABEL maintainer="PHPModDock-Lite <maintainer@phpmoddock-lite.io>"
 
 # Set working directory
 WORKDIR /var/www
@@ -99,7 +99,11 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
 ARG INSTALL_SYMFONY_CLI=false
 
 RUN if [ ${INSTALL_SYMFONY_CLI} = true ]; then \
-    wget https://get.symfony.com/cli/installer -O - | bash \
+    wget https://get.symfony.com/cli/installer -O symfony-installer \
+    && wget https://get.symfony.com/cli/installer.sha256 -O symfony-installer.sha256 \
+    && echo "$(cat symfony-installer.sha256)  symfony-installer" | sha256sum -c - \
+    && bash symfony-installer \
+    && rm symfony-installer symfony-installer.sha256 \
     && mv /root/.symfony*/bin/symfony /usr/local/bin/symfony \
 ;fi
 
@@ -149,6 +153,10 @@ COPY html /usr/share/frankenphp/html
 
 # Expose ports
 EXPOSE 80 443 443/udp
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost/ || exit 1
 
 # Run FrankenPHP
 CMD ["frankenphp", "run", "--config", "/etc/frankenphp/Caddyfile"]

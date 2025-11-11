@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -euo pipefail
 
 # Colors for output
 RED='\033[0;31m'
@@ -15,7 +15,7 @@ PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 CADDYFILE_DIR="$PROJECT_ROOT/services/frankenphp/config"
 CADDYFILE_HTTP="$CADDYFILE_DIR/Caddyfile"
 CADDYFILE_HTTPS="$CADDYFILE_DIR/Caddyfile.https"
-CONTAINER_NAME="laradock_frankenphp"
+CONTAINER_NAME="phpmoddock_frankenphp"
 
 # Functions
 print_info() {

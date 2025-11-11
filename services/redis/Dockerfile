@@ -1,6 +1,6 @@
 FROM redis:7-alpine
 
-LABEL maintainer="Laradock Lite <maintainer@laradock-lite.io>"
+LABEL maintainer="PHPModDock-Lite <maintainer@phpmoddock-lite.io>"
 
 # Copy custom Redis configuration
 COPY redis.conf /usr/local/etc/redis/redis.conf

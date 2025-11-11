@@ -1,6 +1,6 @@
 FROM php:8.1-fpm-alpine
 
-LABEL maintainer="Laradock Lite <maintainer@laradock-lite.io>"
+LABEL maintainer="PHPModDock-Lite <maintainer@phpmoddock-lite.io>"
 
 # Set working directory
 WORKDIR /var/www
@@ -114,8 +114,8 @@ RUN rm -rf /var/cache/apk/* /tmp/* /var/tmp/*
 ARG PUID=1000
 ARG PGID=1000
 
-RUN addgroup -g ${PGID} laradock && \
-    adduser -D -u ${PUID} -G laradock laradock
+RUN addgroup -g ${PGID} phpmoddock && \
+    adduser -D -u ${PUID} -G phpmoddock phpmoddock
 
 # Switch to non-root user
 USER laradock

@@ -3,6 +3,8 @@
 # PHPModDock-Lite - Workspace Interactive Menu
 # Automatically detects projects and provides navigation
 
+set -e
+
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'

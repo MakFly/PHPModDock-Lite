@@ -1,6 +1,6 @@
 FROM rabbitmq:3-management-alpine
 
-LABEL maintainer="Laradock Lite <maintainer@laradock-lite.io>"
+LABEL maintainer="PHPModDock-Lite <maintainer@phpmoddock-lite.io>"
 
 # Install bash for easier debugging
 RUN apk --update add --no-cache bash

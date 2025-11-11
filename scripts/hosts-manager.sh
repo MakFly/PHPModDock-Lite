@@ -3,7 +3,7 @@
 # PHPModDock-Lite - /etc/hosts Manager
 # Gestion intelligente multi-OS du fichier hosts
 
-set -e
+set -euo pipefail
 
 # Load OS detection library
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -32,6 +32,36 @@ print_header() {
     echo ""
 }
 
+# Validate domain name format
+validate_domain() {
+    local domain=$1
+    if ! [[ "$domain" =~ ^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$ ]]; then
+        echo -e "${RED}✗ Nom de domaine invalide: $domain${NC}"
+        echo -e "${YELLOW}Utilisez un format de domaine valide (ex: myapp.localhost)${NC}"
+        return 1
+    fi
+    return 0
+}
+
+# Validate IP address format
+validate_ip() {
+    local ip=$1
+    if ! [[ "$ip" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then
+        echo -e "${RED}✗ Adresse IP invalide: $ip${NC}"
+        return 1
+    fi
+    # Check each octet is <= 255
+    local IFS='.'
+    local -a octets=($ip)
+    for octet in "${octets[@]}"; do
+        if [ "$octet" -gt 255 ]; then
+            echo -e "${RED}✗ Adresse IP invalide: $ip${NC}"
+            return 1
+        fi
+    done
+    return 0
+}
+
 # Check if entry exists in hosts file
 entry_exists() {
     local domain=$1
@@ -41,7 +71,9 @@ entry_exists() {
         return 1
     fi
 
-    grep -q "^127.0.0.1[[:space:]]\+$domain" "$hosts_file" 2>/dev/null
+    # Escape domain for safe use in grep pattern
+    local escaped_domain=$(printf '%s\n' "$domain" | sed 's/[.[\*^$()+?{|]/\\&/g')
+    grep -q "^127.0.0.1[[:space:]]\+$escaped_domain" "$hosts_file" 2>/dev/null
 }
 
 # Add entry to hosts file
@@ -49,6 +81,10 @@ add_entry() {
     local domain=$1
     local ip=${2:-127.0.0.1}
     local comment=${3:-""}
+
+    # Validate inputs
+    validate_domain "$domain" || return 1
+    validate_ip "$ip" || return 1
 
     # Check if already exists
     if entry_exists "$domain"; then
@@ -234,7 +270,7 @@ remove_managed_entries() {
     return 0
 }
 
-# List Laradock entries
+# List PHPModDock-Lite entries
 list_entries() {
     echo -e "${BLUE}Entrées PHPModDock-Lite dans $HOSTS_FILE:${NC}"
     echo ""

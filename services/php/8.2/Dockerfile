@@ -1,6 +1,6 @@
 FROM php:8.2-fpm-alpine
 
-LABEL maintainer="Laradock Lite <maintainer@laradock-lite.io>"
+LABEL maintainer="PHPModDock-Lite <maintainer@phpmoddock-lite.io>"
 
 # Set working directory
 WORKDIR /var/www
@@ -79,10 +79,11 @@ RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
 ###########################################################################
 
 ARG INSTALL_XDEBUG=false
+ARG XDEBUG_VERSION=3.3.0
 
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     apk add --no-cache --virtual .xdebug-deps $PHPIZE_DEPS \
-    && pecl install xdebug-3.3.0 \
+    && pecl install xdebug-${XDEBUG_VERSION} \
     && docker-php-ext-enable xdebug \
     && apk del .xdebug-deps \
 ;fi
@@ -114,8 +115,8 @@ RUN rm -rf /var/cache/apk/* /tmp/* /var/tmp/*
 ARG PUID=1000
 ARG PGID=1000
 
-RUN addgroup -g ${PGID} laradock && \
-    adduser -D -u ${PUID} -G laradock laradock
+RUN addgroup -g ${PGID} phpmoddock && \
+    adduser -D -u ${PUID} -G phpmoddock phpmoddock
 
 # Switch to non-root user
 USER laradock

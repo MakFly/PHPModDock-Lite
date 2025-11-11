@@ -1,6 +1,6 @@
 FROM php:8.3-cli-alpine
 
-LABEL maintainer="Laradock Lite <maintainer@laradock-lite.io>"
+LABEL maintainer="PHPModDock-Lite <maintainer@phpmoddock-lite.io>"
 
 # Set working directory
 WORKDIR /var/www
@@ -84,10 +84,11 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
 ###########################################################################
 
 ARG INSTALL_XDEBUG=false
+ARG XDEBUG_VERSION=3.3.0
 
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     apk add --no-cache --virtual .xdebug-deps $PHPIZE_DEPS \
-    && pecl install xdebug-3.3.0 \
+    && pecl install xdebug-${XDEBUG_VERSION} \
     && docker-php-ext-enable xdebug \
     && apk del .xdebug-deps \
 ;fi
@@ -98,7 +99,17 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
 
 ARG COMPOSER_VERSION=2
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --${COMPOSER_VERSION}
+# Install Composer with signature verification
+RUN curl -sS https://getcomposer.org/installer -o composer-setup.php \
+    && EXPECTED_CHECKSUM="$(curl -sS https://composer.github.io/installer.sig)" \
+    && ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")" \
+    && if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]; then \
+        >&2 echo 'ERROR: Invalid Composer installer checksum' \
+        && rm composer-setup.php \
+        && exit 1; \
+    fi \
+    && php composer-setup.php --install-dir=/usr/local/bin --filename=composer --${COMPOSER_VERSION} \
+    && rm composer-setup.php
 
 # Install global Composer packages
 ARG INSTALL_LARAVEL_INSTALLER=false
@@ -113,7 +124,11 @@ RUN if [ ${INSTALL_LARAVEL_INSTALLER} = true ]; then \
 ###########################################################################
 
 RUN if [ ${INSTALL_SYMFONY_CLI} = true ]; then \
-    wget https://get.symfony.com/cli/installer -O - | bash \
+    wget https://get.symfony.com/cli/installer -O symfony-installer \
+    && wget https://get.symfony.com/cli/installer.sha256 -O symfony-installer.sha256 \
+    && echo "$(cat symfony-installer.sha256)  symfony-installer" | sha256sum -c - \
+    && bash symfony-installer \
+    && rm symfony-installer symfony-installer.sha256 \
     && mv /root/.symfony*/bin/symfony /usr/local/bin/symfony \
 ;fi
 
@@ -166,7 +181,7 @@ RUN chmod +x /home/www-data/workspace-menu.sh && \
 
 # Configure bash to load scripts
 RUN echo "" >> /home/www-data/.bashrc && \
-    echo "# Laradock Lite Workspace Configuration" >> /home/www-data/.bashrc && \
+    echo "# PHPModDock-Lite Workspace Configuration" >> /home/www-data/.bashrc && \
     echo "source ~/aliases.sh" >> /home/www-data/.bashrc && \
     echo "source ~/workspace-helpers.sh" >> /home/www-data/.bashrc && \
     echo "" >> /home/www-data/.bashrc && \
@@ -175,6 +190,10 @@ RUN echo "" >> /home/www-data/.bashrc && \
 
 # Set default user
 USER www-data
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD php -v > /dev/null 2>&1 || exit 1
 
 # Keep container running
 CMD ["tail", "-f", "/dev/null"]

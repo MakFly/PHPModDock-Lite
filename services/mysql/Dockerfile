@@ -1,7 +1,7 @@
 ARG MYSQL_VERSION=8.0
 FROM mysql:${MYSQL_VERSION}
 
-LABEL maintainer="Laradock Lite <maintainer@laradock-lite.io>"
+LABEL maintainer="PHPModDock-Lite <maintainer@phpmoddock-lite.io>"
 
 # Copy custom MySQL configuration
 COPY my.cnf /etc/mysql/conf.d/my.cnf

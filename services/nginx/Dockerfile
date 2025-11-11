@@ -1,6 +1,6 @@
 FROM nginx:alpine
 
-LABEL maintainer="Laradock Lite <maintainer@laradock-lite.io>"
+LABEL maintainer="PHPModDock-Lite <maintainer@phpmoddock-lite.io>"
 
 # Install dependencies
 RUN apk update \
@@ -28,11 +28,15 @@ RUN mkdir -p /var/log/nginx && \
 ARG PUID=1000
 ARG PGID=1000
 
-RUN addgroup -g ${PGID} laradock && \
-    adduser -D -u ${PUID} -G laradock laradock
+RUN addgroup -g ${PGID} phpmoddock && \
+    adduser -D -u ${PUID} -G phpmoddock phpmoddock
 
 # Clean up
 RUN rm -rf /var/cache/apk/*
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost/ || exit 1
 
 CMD ["nginx", "-g", "daemon off;"]
 

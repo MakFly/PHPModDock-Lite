@@ -5,6 +5,8 @@
 # Interactive script to choose between FrankenPHP and Nginx+PHP-FPM
 ###########################################################
 
+set -euo pipefail
+
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -49,9 +51,9 @@ show_menu() {
 
 # Get current running services
 get_running_services() {
-    if docker ps --format '{{.Names}}' | grep -q "laradock_frankenphp"; then
+    if docker ps --format '{{.Names}}' | grep -q "phpmoddock_frankenphp"; then
         echo "frankenphp"
-    elif docker ps --format '{{.Names}}' | grep -q "laradock_nginx"; then
+    elif docker ps --format '{{.Names}}' | grep -q "phpmoddock_nginx"; then
         echo "nginx"
     else
         echo "none"

@@ -1,7 +1,7 @@
 ARG POSTGRES_VERSION=16-alpine
 FROM postgres:${POSTGRES_VERSION}
 
-LABEL maintainer="Laradock Lite <maintainer@laradock-lite.io>"
+LABEL maintainer="PHPModDock-Lite <maintainer@phpmoddock-lite.io>"
 
 # Install additional tools
 RUN apk --update add --no-cache bash

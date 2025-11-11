@@ -5,7 +5,7 @@
 # Automated setup for new installations and cloned projects
 ###########################################################
 
-set -e
+set -euo pipefail
 
 # Load libraries
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -34,6 +34,36 @@ print_banner() {
     echo "║                                                    ║"
     echo "╚════════════════════════════════════════════════════╝"
     echo -e "${NC}"
+}
+
+# Wait for container to be healthy
+wait_for_healthy() {
+    local container_name=$1
+    local max_wait=${2:-30}
+    local wait_time=0
+
+    echo -e "${BLUE}Waiting for $container_name to be healthy...${NC}"
+
+    while [ $wait_time -lt $max_wait ]; do
+        if docker inspect --format='{{.State.Health.Status}}' "$container_name" 2>/dev/null | grep -q "healthy"; then
+            echo -e "${GREEN}✓ $container_name is healthy${NC}"
+            return 0
+        fi
+
+        # Also check if container is running but has no healthcheck
+        if docker ps --format '{{.Names}}' | grep -q "^${container_name}$"; then
+            if ! docker inspect --format='{{.State.Health}}' "$container_name" 2>/dev/null | grep -q "Status"; then
+                echo -e "${GREEN}✓ $container_name is running${NC}"
+                return 0
+            fi
+        fi
+
+        sleep 1
+        wait_time=$((wait_time + 1))
+    done
+
+    echo -e "${YELLOW}⚠ Timeout waiting for $container_name${NC}"
+    return 1
 }
 
 check_requirements() {
@@ -182,8 +212,7 @@ start_containers() {
 
     # Wait for services
     echo -e "${BLUE}Waiting for services to be ready...${NC}"
-    sleep 3
-    echo -e "${GREEN}✓ Services ready${NC}"
+    wait_for_healthy "phpmoddock_workspace" 30 || true
     echo ""
 }
 

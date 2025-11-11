@@ -3,6 +3,8 @@
 # PHPModDock-Lite - Workspace Aliases (Contextual & Intelligent)
 # Useful shortcuts for Laravel and Symfony development
 
+set -e
+
 # Colors for messages
 RED='\033[0;31m'
 YELLOW='\033[1;33m'

@@ -3,6 +3,8 @@
 # PHPModDock-Lite - OS Detection Library
 # Détecte automatiquement l'OS et fournit les chemins appropriés
 
+set -e
+
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -200,7 +202,7 @@ get_line_ending() {
 # Backup hosts file (OS-aware)
 backup_hosts_file() {
     local hosts_file=$(get_hosts_file_path)
-    local backup_file="${hosts_file}.laradock-backup-$(date +%Y%m%d-%H%M%S)"
+    local backup_file="${hosts_file}.phpmoddock-backup-$(date +%Y%m%d-%H%M%S)"
     local os_type=$(detect_os | cut -d':' -f1)
 
     if [ ! -f "$hosts_file" ]; then
